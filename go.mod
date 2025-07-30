@@ -16,6 +16,9 @@ require (
 	github.com/tidwall/pretty v1.2.1 // direct
 	golang.org/x/crypto v0.26.0
 	k8s.io/klog/v2 v2.120.1
+)
+
+require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/golang/protobuf v1.3.3 // indirect
