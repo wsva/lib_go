@@ -1,4 +1,4 @@
-package ant_design_pro
+package http
 
 import (
 	"encoding/json"
@@ -9,19 +9,19 @@ import (
 
 //https://pro.ant.design/zh-CN/docs/request
 
-type HttpRespData struct {
-	List     interface{} `json:"list,omitempty"`
-	Current  int         `json:"current,omitempty"`
-	PageSize int         `json:"pageSize,omitempty"`
-	Total    int         `json:"total,omitempty"`
+type ResponseData struct {
+	List     any `json:"list,omitempty"`
+	Current  int `json:"current,omitempty"`
+	PageSize int `json:"pageSize,omitempty"`
+	Total    int `json:"total,omitempty"`
 }
 
-type HttpResp struct {
+type Response struct {
 	// if request is success
 	Success bool `json:"success,omitempty"`
 
 	// response data
-	Data HttpRespData `json:"data,omitempty"`
+	Data ResponseData `json:"data,omitempty"`
 
 	// code for errorType
 	ErrorCode string `json:"errorCode,omitempty"`
@@ -40,13 +40,13 @@ type HttpResp struct {
 	Host string `json:"host,omitempty"`
 }
 
-func (a *HttpResp) DoResponse(w http.ResponseWriter) {
-	jsonBytes, _ := json.Marshal(*a)
+func (r *Response) DoResponse(w http.ResponseWriter) {
+	jsonBytes, _ := json.Marshal(*r)
 	w.Write(jsonBytes)
 }
 
-func RespondError(w http.ResponseWriter, err interface{}) {
-	resp := HttpResp{
+func RespondError(w http.ResponseWriter, err any) {
+	resp := Response{
 		Success: false,
 		ErrMsg:  fmt.Sprint(err),
 	}
@@ -54,15 +54,15 @@ func RespondError(w http.ResponseWriter, err interface{}) {
 }
 
 func RespondSuccess(w http.ResponseWriter) {
-	resp := HttpResp{
+	resp := Response{
 		Success: true,
 	}
 	resp.DoResponse(w)
 }
 
 // return HttpRespData.List
-func ParseDataListFromHttpResp(respBytes []byte) (interface{}, error) {
-	var resp HttpResp
+func ParseDataListFromResponse(respBytes []byte) (any, error) {
+	var resp Response
 	err := json.Unmarshal(respBytes, &resp)
 	if err != nil {
 		return nil, err
