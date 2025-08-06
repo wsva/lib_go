@@ -61,7 +61,7 @@ func RespondSuccess(w http.ResponseWriter) {
 	resp.DoResponse(w)
 }
 
-func RespondAny(w http.ResponseWriter, body any) {
+func RespondJSON(w http.ResponseWriter, body any) {
 	w.Header().Set("Content-Type", "application/json")
 	jsonBytes, _ := json.Marshal(body)
 	w.Write(jsonBytes)
